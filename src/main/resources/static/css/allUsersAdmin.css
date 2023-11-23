@@ -1,0 +1,15 @@
+.user-container {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.user-info {
+    margin-bottom: 10px;
+}
+
+.delete-form,
+.logout-form {
+    display: inline-block;
+    margin-right: 10px;
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>People</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/css.css">
+</head>
+
+<body class="body1">
+<div class="label-container">
+    <label for="fullName">Full name: </label>
+    <span id="fullName" th:text="${people.getFullName()}"/>
+</div>
+
+<br>
+
+<div class="label-container">
+    <label for="birthYear">Birth year: </label>
+    <span id="birthYear" th:text="${people.getBirthYear()}"/>
+</div>
+
+<br>
+
+<hr>
+<span>Books:</span>
+<div th:if="${!books.isEmpty()}" th:each="book : ${books}">
+        <span th:class="${book.isOverdue()} ? 'overdue' : ''"
+              th:text="${book.getName()+', '+book.getAuthor()+', '+book.getYearOfPublication()}">book</span>
+</div>
+<div th:unless="${!books.isEmpty()}">
+    This person did not take books
+</div>
+<hr>
+<div class="form">
+    <form th:method="DELETE" th:action="@{/people/{id}(id=${people.getPeople_id()})}">
+        <button class="floating-button" type="submit">Delete</button>
+    </form>
+    <form th:method="GET" th:action="@{/people/{id}/edit(id=${people.getPeople_id()})}">
+        <button class="floating-button" type="submit">Edit</button>
+    </form>
+    <form th:method="GET" th:action="@{/people}">
+        <button class="floating-button" type="submit">Back</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/css/allUsersAdmin.css">
+    <title>All users</title>
+</head>
+<body>
+
+<div class="user-container" th:each="person : ${listPerson}">
+    <div class="user-info">
+        <span th:text="${person.getUserName()+' | '}"></span>
+        <span th:text="${person.getName()}+' | '"></span>
+        <span th:text="${person.getSurname()}+' | '"></span>
+        <span th:text="${person.getAge()}+' | '"></span>
+        <span th:text="${person.getRole()}+' | '"></span>
+    </div>
+
+    <form class="delete-form" th:method="DELETE" th:action="@{/admin/deletePerson}" th:object="${person}">
+        <input type="hidden" th:value="${person.getId()}" th:name="id">
+        <input type="submit" value="Delete">
+    </form>
+
+    <form class="logout-form" th:if="${person.isAuth()}" th:method="POST" th:action="@{/admin/logoutPerson}" th:object="${person}">
+        <input type="hidden" th:value="${person.getId()}" th:name="id">
+        <input type="submit" value="Logout">
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Books</title>
+</head>
+<form method="get" th:action="@{/books}">
+
+    <label for="sort">Sort by year of publication : </label>
+    <input type="checkbox" id="sort" name="sort" th:checked="${sort}">
+
+    <br>
+
+    <label for="page">Page :</label>
+    <input type="number" id="page" name="page" th:value="${page}">
+
+    <br>
+
+    <label for="books_per_page">Books per page :</label>
+    <input type="number" id="books_per_page" name="books_per_page" th:value="${books_per_page}">
+
+    <input type="submit" value="Submit filter">
+
+</form>
+<hr>
+<body>
+<div th:each="book : ${books}">
+    <a th:href="@{/books/{id}(id=${book.getBooks_id()})}"
+       th:text="${book.getName()+ '. Author :'+book.getAuthor() + '. '+book.getYearOfPublication()}"></a>
+</div>
+
+<form th:method="GET" th:action="@{/books/add}">
+    <input type="submit" value="New book">
+</form>
+<form th:method="GET" th:action="@{/menu}">
+    <input type="submit" value="Back menu">
+</form>
+<form th:method="GET" th:action="@{/books/search}">
+    <input type="submit" value="Search book">
+</form>
+
+</body>
+</html>

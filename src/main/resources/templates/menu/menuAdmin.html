@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu</title>
+    <link rel="stylesheet" type="text/css" href="/css/css.css">
+</head>
+<body class="form">
+<form th:action="@{/people}" method="GET">
+    <button type="submit" class="floating-button">List people</button>
+</form>
+<form action="/books" method="GET">
+    <input type="hidden" name="page" value="1">
+    <input type="hidden" name="books_per_page" value="4">
+    <button type="submit" class="floating-button" >List books</button>
+</form>
+<form th:action="@{/admin/allPerson}" th:method="GET">
+    <button type="submit" class="floating-button" >Admin Page</button>
+</form>
+<form th:action="@{/logout}" th:method="POST">
+    <input type="submit" value="Logout">
+</form>
+
+</body>
+</html>

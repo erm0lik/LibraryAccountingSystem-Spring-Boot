@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Free books</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/user.css">
+
+</head>
+<body class="body">
+<div class="all-div">
+    <div class="header-div">
+        <form th:method="GET" th:action="@{/user}">
+            <input type="submit" value="My page">
+        </form>
+
+        <form th:method="GET" th:action="@{/user/freeBooks}">
+            <input style="background-color: #163d80;" type="submit" value="Free books">
+        </form>
+
+        <form th:method="GET" th:action="@{/user/myBooks}">
+            <input type="submit" value="My book">
+        </form>
+        <form th:method="GET" th:action="@{/user/myRequests}">
+            <input type="submit" value="My request">
+        </form>
+        <form th:method="POST" th:action="@{/logout}">
+            <input type="submit" value="Logout">
+        </form>
+    </div>
+    <div class="div-info">
+    <div class="div-book" th:if="${!freeBooks.isEmpty()}" th:each="book : ${freeBooks}">
+
+        <a th:href="@{/user/freeBooks/{bookId}(bookId=${book.getBooks_id()})}" th:text="${book.getName() + ' | ' + book.getAuthor() + ' | ' + book.getYearOfPublication()}"></a>
+        <form th:method="POST" th:action="@{/user/addRequest}">
+            <input type="hidden" th:name="idBook" th:value="${book.getBooks_id()}">
+            <input type="submit" value="Request">
+        </form>
+    </div>
+    <a th:unless="${!freeBooks.isEmpty()}">There are no free books</a>
+    </div>
+</div>
+</body>
+</html>

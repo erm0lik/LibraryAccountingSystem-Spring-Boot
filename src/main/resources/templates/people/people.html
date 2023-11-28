@@ -9,14 +9,14 @@
 <body class="body1">
 <div class="label-container">
     <label for="fullName">Full name: </label>
-    <span id="fullName" th:text="${people.getFullName()}"/>
+    <span id="fullName" th:text="${people.getName()+' '+people.getSurname()}"/>
 </div>
 
 <br>
 
 <div class="label-container">
-    <label for="birthYear">Birth year: </label>
-    <span id="birthYear" th:text="${people.getBirthYear()}"/>
+    <label for="birthYear">Age: </label>
+    <span id="birthYear" th:text="${people.getAge()}"/>
 </div>
 
 <br>
@@ -32,12 +32,6 @@
 </div>
 <hr>
 <div class="form">
-    <form th:method="DELETE" th:action="@{/people/{id}(id=${people.getPeople_id()})}">
-        <button class="floating-button" type="submit">Delete</button>
-    </form>
-    <form th:method="GET" th:action="@{/people/{id}/edit(id=${people.getPeople_id()})}">
-        <button class="floating-button" type="submit">Edit</button>
-    </form>
     <form th:method="GET" th:action="@{/people}">
         <button class="floating-button" type="submit">Back</button>
     </form>

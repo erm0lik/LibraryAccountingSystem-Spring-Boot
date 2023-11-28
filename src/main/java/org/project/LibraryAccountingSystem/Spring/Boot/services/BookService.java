@@ -2,6 +2,8 @@ package org.project.LibraryAccountingSystem.Spring.Boot.services;
 
 
 import org.project.LibraryAccountingSystem.Spring.Boot.models.Book;
+import org.project.LibraryAccountingSystem.Spring.Boot.models.BookRequest;
+import org.project.LibraryAccountingSystem.Spring.Boot.models.Person;
 import org.project.LibraryAccountingSystem.Spring.Boot.repositories.BookRepositories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -16,13 +18,12 @@ import java.util.List;
 @Service
 public class BookService {
     private final BookRepositories bookRepositories;
-    private final PeopleService peopleService;
+
     private final PersonService personService ;
 
     @Autowired
-    public BookService(BookRepositories bookRepositories, PeopleService peopleService, PersonService personService) {
+    public BookService(BookRepositories bookRepositories, PersonService personService) {
         this.bookRepositories = bookRepositories;
-        this.peopleService = peopleService;
         this.personService = personService;
     }
 
@@ -70,7 +71,7 @@ public class BookService {
     @Transactional
     public void setPeopleForBook(int people_id, int books_id, int person_id) {
         Book book = findById(books_id);
-        book.setOwner(peopleService.findById(people_id));
+        book.setOwner(personService.findById(people_id));
         book.setLibrarian(personService.findById(person_id));
         book.setDate_taken(new Date());
 
@@ -90,6 +91,10 @@ public class BookService {
 
         return bookRepositories.findByNameStartingWithIgnoreCase(start);
     }
-
+    public List<Book> findFreeBook (Person person ){
+        List<Book> listBook =  bookRepositories.findByOwnerIsNull();
+        listBook.removeIf(book -> book.getBookRequestList().contains(new BookRequest(person, book)));
+        return listBook;
+    }
 
 }

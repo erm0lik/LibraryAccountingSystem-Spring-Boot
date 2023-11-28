@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/user.css">
+
+</head>
+<body class="body">
+<div class="all-div">
+    <div class="header-div">
+        <form th:method="GET" th:action="@{/user}">
+            <input style="background-color: #163d80;" type="submit" value="My page">
+        </form>
+        <form th:method="GET" th:action="@{/user/freeBooks}">
+            <input type="submit" value="Free books">
+        </form>
+
+        <form th:method="GET" th:action="@{/user/myBooks}">
+            <input type="submit" value="My book">
+        </form>
+        <form th:method="GET" th:action="@{/user/myRequests}">
+            <input type="submit" value="My request">
+        </form>
+        <form th:method="POST" th:action="@{/logout}">
+            <input type="submit" value="Logout">
+        </form>
+    </div>
+    <div class="div-info">
+        <label for="username">Username: </label>
+        <a id="username" th:text="${user.getUserName()}"></a>
+        <br>
+        <label for="name">Name: </label>
+        <a id="name" th:text="${user.getName()}"></a>
+        <br>
+        <label for="surname">Surname: </label>
+        <a id="surname" th:text="${user.getSurname()}"></a>
+        <br>
+        <label for="age">Age: </label>
+        <a id="age" th:text="${user.getAge()}"></a>
+        <br>
+        <form th:method="POST" th:action="@{/user/updatePassword}" th:object="${user}" onsubmit="return validatePassword()">
+            <div>
+                <label class="" for="newPassword">New Password:</label>
+                <input type="password" id="newPassword" th:field="*{password}" required/>
+                <br>
+
+                <label for="confirmPassword">Confirm New Password:</label>
+                <input type="password" id="confirmPassword" required/>
+                <br>
+
+                <div id="passwordMismatch" style="color: red; display: none;">Passwords do not match</div>
+                <div id="errorPassword" style="color: red;" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
+
+                <button class="floating-button" type="submit">Update Password</button>
+            </div>
+        </form>
+
+        <script>
+            function validatePassword() {
+                var newPassword = document.getElementById("newPassword").value;
+                var confirmPassword = document.getElementById("confirmPassword").value;
+
+                if (newPassword !== confirmPassword) {
+                    document.getElementById("passwordMismatch").style.display = "block";
+                    document.getElementById("errorPassword").style.display = "none";
+                    return false;
+                } else {
+                    document.getElementById("passwordMismatch").style.display = "none";
+                    document.getElementById("errorPassword").style.display = "block";
+                    return true;
+                }
+            }
+        </script>
+    </div>
+</div>
+</body>
+</html>

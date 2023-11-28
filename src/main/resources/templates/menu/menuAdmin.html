@@ -17,6 +17,11 @@
 <form th:action="@{/admin/allPerson}" th:method="GET">
     <button type="submit" class="floating-button" >Admin Page</button>
 </form>
+
+<form th:action="@{/requestBook/allRequest}" method="GET">
+    <button type="submit" class="floating-button">List request</button>
+</form>
+
 <form th:action="@{/logout}" th:method="POST">
     <input type="submit" value="Logout">
 </form>

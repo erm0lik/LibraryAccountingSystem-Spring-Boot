@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${book.getName()}"></title>
+    <link rel="stylesheet" type="text/css" href="/static/css/user.css">
+
+</head>
+<body class="body">
+<div class="all-div">
+    <div class="header-div">
+        <form th:method="GET" th:action="@{/user}">
+            <input type="submit" value="My page">
+        </form>
+
+        <form th:method="GET" th:action="@{/user/freeBooks}">
+            <input  type="submit" value="Free books">
+        </form>
+
+        <form th:method="GET" th:action="@{/user/myBooks}">
+            <input type="submit" value="My book">
+        </form>
+        <form th:method="GET" th:action="@{/user/myRequests}">
+            <input type="submit" value="My request">
+        </form>
+        <form th:method="POST" th:action="@{/logout}">
+            <input type="submit" value="Logout">
+        </form>
+    </div>
+
+
+    <div class="div-info">
+
+        <form  th:method="GET" th:action="@{/user/freeBooks}">
+            <button class="floating-button" type="submit" >Back</button>
+        </form>
+
+        <label for="name">Name: </label>
+        <a id="name" th:text="${book.getName()}"></a>
+        <br>
+        <label for="Author">Author: </label>
+        <a id="Author" th:text="${book.getAuthor()}"></a>
+        <br>
+        <label for="YearOfPublication">Year of publication: </label>
+        <a id="YearOfPublication" th:text="${book.getYearOfPublication()}"></a>
+
+    </div>
+</div>
+</body>
+</html>

@@ -5,7 +5,6 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpSessionEvent;
 import org.project.LibraryAccountingSystem.Spring.Boot.security.PersonDetails;
 import org.project.LibraryAccountingSystem.Spring.Boot.services.PersonDetailsService;
-import org.project.LibraryAccountingSystem.Spring.Boot.services.PersonService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -24,12 +23,12 @@ import java.util.Set;
 public class SecurityConfig {
     private final PersonDetailsService personDetailsService;
     private final HttpSessionConfig httpSessionConfig;
-    private final PersonService personService;
 
-    public SecurityConfig(PersonDetailsService personDetailsService, HttpSessionConfig httpSessionConfig, PersonService personService) {
+
+    public SecurityConfig(PersonDetailsService personDetailsService, HttpSessionConfig httpSessionConfig) {
         this.personDetailsService = personDetailsService;
         this.httpSessionConfig = httpSessionConfig;
-        this.personService = personService;
+
     }
 
     @Bean
@@ -52,8 +51,10 @@ public class SecurityConfig {
                 .authenticationProvider(authenticationProvider())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/menu-admin", "/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/requestBook/**" , "/books/**" , "/people/**").hasAnyRole( "LIBRARIAN", "ADMIN" )
                         .requestMatchers("/auth/**").permitAll()
-                        .anyRequest().hasAnyRole("LIBRARIAN", "ADMIN"))
+                        .requestMatchers("/static/css/**").permitAll()
+                        .anyRequest().hasAnyRole("LIBRARIAN", "ADMIN" , "USER" ))
                 .formLogin(formLogin -> formLogin
                         .loginPage("/auth/login").permitAll()
                         .loginProcessingUrl("/process_login")
@@ -66,13 +67,16 @@ public class SecurityConfig {
                             personDetails.getPerson().setAuth(true);
 
                             httpSessionConfig.httpSessionListener().sessionCreated(new HttpSessionEvent(session));
-                            if (roles.contains("ROLE_ADMIN")) {
+                            if (roles.contains("ROLE_ADMIN"))
                                 response.sendRedirect("/menu-admin");
-                            } else {
+                            else if (roles.contains("ROLE_LIBRARIAN"))
                                 response.sendRedirect("/menu");
+                            else if (roles.contains("ROLE_USER")) {
+                                response.sendRedirect("/user");
                             }
+
                         })
-                        .failureForwardUrl("/auth/login?error"))
+                        .failureUrl("/auth/login?error"))
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/auth/login"));

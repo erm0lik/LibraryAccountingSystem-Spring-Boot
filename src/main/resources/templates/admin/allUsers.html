@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/static/css/allUsersAdmin.css">
@@ -13,15 +13,26 @@
         <span th:text="${person.getName()}+' | '"></span>
         <span th:text="${person.getSurname()}+' | '"></span>
         <span th:text="${person.getAge()}+' | '"></span>
-        <span th:text="${person.getRole()}+' | '"></span>
+        <form th:method="POST" th:action="@{/admin/edit}" th:object="${updatePerson}">
+            <select id="selectPeople" th:name="role">
+                <option th:value="${person.getRole()}" th:text="${person.getRole()}"></option>
+                <option th:value="ROLE_ADMIN" th:text="ROLE_ADMIN"></option>
+                <option th:value="ROLE_USER" th:text="ROLE_USER"></option>
+                <option th:value="ROLE_LIBRARIAN" th:text="ROLE_LIBRARIAN"></option>
+            </select>
+            <input type="hidden" th:value="${person.getId()}" th:name="id">
+            <input type="submit" value="Edit">
+        </form>
     </div>
+
 
     <form class="delete-form" th:method="DELETE" th:action="@{/admin/deletePerson}" th:object="${person}">
         <input type="hidden" th:value="${person.getId()}" th:name="id">
         <input type="submit" value="Delete">
     </form>
 
-    <form class="logout-form" th:if="${person.isAuth()}" th:method="POST" th:action="@{/admin/logoutPerson}" th:object="${person}">
+    <form class="logout-form" th:if="${person.isAuth()}" th:method="POST"
+          th:action="@{/admin/logoutPerson}" th:object="${person}">
         <input type="hidden" th:value="${person.getId()}" th:name="id">
         <input type="submit" value="Logout">
     </form>

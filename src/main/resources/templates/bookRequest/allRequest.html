@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Request</title>
+</head>
+<body>
+<div th:each="req : ${listRequest}">
+    <a th:text="${req.getOwner().getName()}"></a>
+    <a th:text="${req.getBook().getName()}"></a>
+    <a th:text="${req.getDate()}"></a>
+    <form th:method="POST" th:action="@{/requestBook/approveRequest}">
+        <input type="hidden" th:name="idRequest" th:value="${req.getId()}">
+        <input type="submit" value="Approve">
+    </form>
+</div>
+</body>
+</html>

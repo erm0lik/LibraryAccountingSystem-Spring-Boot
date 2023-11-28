@@ -3,10 +3,10 @@ package org.project.LibraryAccountingSystem.Spring.Boot.controllers;
 
 import jakarta.validation.Valid;
 import org.project.LibraryAccountingSystem.Spring.Boot.models.Book;
-import org.project.LibraryAccountingSystem.Spring.Boot.models.People;
+import org.project.LibraryAccountingSystem.Spring.Boot.models.Person;
 import org.project.LibraryAccountingSystem.Spring.Boot.security.PersonDetails;
 import org.project.LibraryAccountingSystem.Spring.Boot.services.BookService;
-import org.project.LibraryAccountingSystem.Spring.Boot.services.PeopleService;
+import org.project.LibraryAccountingSystem.Spring.Boot.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -14,19 +14,18 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
-
 
 @Controller
 @RequestMapping("/books")
 public class BooksController {
     private final BookService bookService;
-    private final PeopleService peopleService;
+    private final PersonService personService;
+
 
     @Autowired
-    public BooksController(BookService bookService, PeopleService peopleService) {
+    public BooksController(BookService bookService, PersonService personService) {
         this.bookService = bookService;
-        this.peopleService = peopleService;
+        this.personService = personService;
     }
 
     @GetMapping
@@ -56,10 +55,10 @@ public class BooksController {
     @GetMapping("/{id}")
     public String getBookPage(@PathVariable("id") int id, Model model) {
         model.addAttribute("book", bookService.findById(id));
-        model.addAttribute("people2", new People());
+        model.addAttribute("people2", new Person());
         if (bookService.inUse(id))
             model.addAttribute("people", bookService.findById(id).getOwner());
-        else model.addAttribute("people", peopleService.findAll());
+        else model.addAttribute("people", personService.findAll());
         return "/books/book";
     }
 
@@ -84,8 +83,9 @@ public class BooksController {
         return "/books/editBook";
     }
 
-    @PatchMapping("/{id}/edit/")
+    @PatchMapping("/{id}/edit")
     public String getEdit(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult, @PathVariable("id") int id) {
+        book.setBooks_id(id);
         if (bindingResult.hasErrors())
             return "/books/editBook";
 
@@ -107,12 +107,12 @@ public class BooksController {
 
     @PatchMapping("/{id}/setPeople")
     public String setPeople(@PathVariable("id") int id,
-                            @ModelAttribute("people2") People people_id,
+                            @ModelAttribute("people2") Person people_id,
                             Authentication authentication) {
 
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
 
-        bookService.setPeopleForBook(people_id.getPeople_id(), id,
+        bookService.setPeopleForBook(people_id.getId(), id,
                 personDetails.getPerson().getId());
         return "redirect:/books/" + id;
     }

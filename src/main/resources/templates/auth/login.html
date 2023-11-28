@@ -2,25 +2,35 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/login.css">
 </head>
 <body>
 <form name="f" method="POST" action="/process_login">
-    <label for="username" >Введите имя пользователя:</label>
-    <input type="text" name="username" id="username"/>
+    <div class="input-group">
+        <input class="input" required autocomplete="off" type="text" name="username" id="username"/>
+        <label class="label" for="username">Username</label>
+    </div>
+
     <br>
-    <label for="password" >Введите пароль :</label>
-    <input type="password" name="password" id="password"/>
-    <br>
-    <input type="submit" value="Login"/>
+    <div class="input-group">
+        <input class="input" required autocomplete="off" type="password" name="password" id="password"/>
+        <label class="label" for="password">Password</label>
+    </div>
 
     <div th:if="${param.error}" style="color: red">
-        Неправильно имя или пароль
+        Incorrect name or password
     </div>
+    <br>
+
+    <input class="input-log" type="submit" value="Login"/>
+
+    <a th:href="@{/auth/registration}">
+    <input type="button"  class="input-reg" value="Registration">
+    </a>
     <input type="hidden" th:name="${_csrf.getParameterName()}" th:value="${_csrf.getToken()}">
 </form>
-<form method="GET" th:action="@{/auth/registration}">
-    <input type="submit" value="Registration">
-</form>
+
 </body>
 </html>

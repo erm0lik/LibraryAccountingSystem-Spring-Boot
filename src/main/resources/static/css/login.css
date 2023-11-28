@@ -1,0 +1,94 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap");
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Inter, sans-serif;
+    height: 100vh;
+    background-color: #1a1a1a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-group {
+    font-size: 1.25rem;
+    position: relative;
+    --primary: rgba(104, 85, 224, 1);;
+}
+
+.input-group input {
+    all: unset;
+    color: #fefefe;
+    padding: 1rem;
+    border: 1px solid #9e9e9e;
+    border-radius: 10px;
+    transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.input-group label {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    color: #d4d4d4;
+    pointer-events: none;
+    transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.input-group input:is(:hover, :focus) {
+    border: 1px solid var(--primary);
+}
+
+.input-group input:is(:hover, :focus, :valid) ~ label {
+    transform: translateY(-120%) scale(0.7);
+    background-color: #1a1a1a;
+    padding-inline: 0.3rem;
+    color: var(--primary);
+}
+
+.input-log {
+    cursor: pointer;
+    border: 0;
+    border-radius: 4px;
+    font-weight: 600;
+    margin: 0 10px;
+    width: 40%;
+    padding: 10px 0;
+    box-shadow: 0 0 20px rgba(104, 85, 224, 0.2);
+    transition: 0.4s;
+    color: rgb(104, 85, 224);
+    background-color: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(104, 85, 224, 1);
+}
+.input-reg {
+    cursor: pointer;
+    border: 0;
+    border-radius: 4px;
+    font-weight: 600;
+    margin: 0 10px;
+    width: 45%;
+    padding: 10px 0;
+    box-shadow: 0 0 20px rgba(104, 85, 224, 0.2);
+    transition: 0.4s;
+    color: white;
+    background-color: rgba(104, 85, 224, 1);
+}
+
+
+
+.input-log:hover {
+    color: white;
+    box-shadow: 0 0 20px rgba(104, 85, 224, 0.6);
+    background-color: rgba(104, 85, 224, 1);
+}
+.input-reg:hover {
+    color: white;
+    box-shadow: 0 0 20px rgba(104, 85, 224, 0.6);
+    background-color: rgba(104, 85, 224, 1);
+}

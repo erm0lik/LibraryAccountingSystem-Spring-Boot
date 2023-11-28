@@ -7,13 +7,11 @@
 </head>
 <body>
 <div th:each="person : ${people}">
-    <a th:href="@{/people/{id}(id=${person.getPeople_id()})}"
-       th:text="${person.getFullName()+', '+person.getBirthYear()}"></a>
+    <a th:href="@{/people/{id}(id=${person.getId()})}"
+       th:text="${person.getName()+' '+person.getSurname()+', '+person.getAge()}"></a>
 </div>
 <hr>
-<form th:method="GET" th:action="@{/people/new}">
-    <input class="floating-button" type="submit" value="New people">
-</form>
+
 <form th:method="GET" th:action="@{/menu}">
     <input class="floating-button" type="submit" value="Back menu">
 </form>

@@ -1,0 +1,135 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap");
+
+.header-div {
+    position: relative;
+    text-align: right; /* Выравниваем текст по правому краю */
+
+}
+
+.header-div form {
+    display: inline-block;
+    margin-right: 10px; /* Отступ между кнопками */
+}
+
+.header-div input[type="submit"] {
+    padding: 10px;
+    text-decoration: none;
+    color: #fff; /* Цвет текста кнопки */
+    background-color: #007bff; /* Цвет фона кнопки */
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; /* Добавлены свойства для анимации */
+}
+
+.header-div input[type="submit"]:hover {
+    background-color: #0056b3; /* Изменение цвета фона при наведении */
+    transform: translateY(3px) scale(1.05); /* Увеличение размера кнопки и небольшое смещение вниз */
+    box-shadow: 0 -5px 8px rgba(0, 0, 0, 0.2); /* Добавление тени для подчеркивания изменения размера */
+
+}
+
+.body{
+    background-color: #efefef;
+    font-family: Inter, sans-serif;
+}
+.all-div{
+
+    margin-left: 15%;
+    margin-right: 15%;
+    overflow: hidden;
+    padding-top: 10px; /* Добавлен отступ снизу, равный размеру тени */
+
+
+}
+/* Стили для обертки .div-info */
+.div-info {
+
+    margin:20px  0 auto; /* Центрирование по горизонтали */
+    padding: 20px; /* Внутренний отступ для контента внутри .div-info */
+    background-color: #ffffff; /* Цвет фона */
+    border: 1px solid #ccc; /* Граничная линия */
+    border-radius: 8px; /* Скругление углов */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Тень */
+}
+
+/* Стили для заголовков (label) внутри .div-info */
+.div-info label {
+    display: inline-block; /* Занимает всю ширину контейнера */
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Стили для текстовых элементов (a) внутри .div-info */
+.div-info a {
+    text-decoration: none;
+    color: #333;
+}
+
+/* Стили для формы и полей ввода внутри .div-info */
+.div-info form {
+    width: 300px;
+    margin-top: 15px;
+}
+.div-info form label {
+    display: inline-block; /* Размещаем метки в одной строке с инпутами */
+    width: 40%; /* Устанавливаем ширину метки (подстройте под ваши требования) */
+    margin-bottom: 5px; /* Расстояние между меткой и инпутом */
+}
+
+.div-info input[type="password"] {
+    width: 55%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Стили для кнопки внутри .div-info */
+.div-info button.floating-button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.div-info button.floating-button:hover {
+    background-color: #0056b3;
+}
+
+
+/* Стили для контейнера книги */
+.div-book {
+    padding-bottom: 5px;
+    display: flex;
+    align-items: baseline;
+
+}
+
+.div-book a {
+    padding-right: 5px;
+    text-decoration: none;
+    color: #333;
+    /* margin-right: 10px;  Уберите эту строку, чтобы убрать отступ между текстом и кнопкой */
+}
+
+.div-book input[type="submit"] {
+    padding: 5px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.div-book input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+

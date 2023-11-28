@@ -1,6 +1,7 @@
 package org.project.LibraryAccountingSystem.Spring.Boot.controllers;
 
 import jakarta.validation.Valid;
+import org.project.LibraryAccountingSystem.Spring.Boot.Util.PersonPasswordValidator;
 import org.project.LibraryAccountingSystem.Spring.Boot.Util.PersonValidator;
 import org.project.LibraryAccountingSystem.Spring.Boot.models.Person;
 import org.project.LibraryAccountingSystem.Spring.Boot.services.RegistrationService;
@@ -15,11 +16,13 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final PersonValidator personValidator;
     private final RegistrationService registrationService;
+    private final PersonPasswordValidator personPasswordValidator ;
 
     @Autowired
-    public AuthController(PersonValidator personValidator, RegistrationService registrationService) {
+    public AuthController(PersonValidator personValidator, RegistrationService registrationService, PersonPasswordValidator personPasswordValidator) {
         this.personValidator = personValidator;
         this.registrationService = registrationService;
+        this.personPasswordValidator = personPasswordValidator;
     }
 
     @GetMapping("/login")
@@ -35,6 +38,7 @@ public class AuthController {
     @PostMapping("/registration")
     public String performRegistration(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult) {
         personValidator.validate(person, bindingResult);
+        personPasswordValidator.validate(person , bindingResult);
         if (bindingResult.hasErrors()) {
             return "/auth/registration";
         }

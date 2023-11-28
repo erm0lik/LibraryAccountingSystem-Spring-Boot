@@ -20,7 +20,7 @@
 <div>
     <div th:if="${book.getOwner()}!=null">
         <form th:method="PATCH" th:action="@{/books/{id}(id=${book.getBooks_id()})}" >
-        <span th:text="${'The book was taken by: ' + people.getFullName()}"></span>
+        <span th:text="${'The book was taken by: ' + people.getName()+' ' + people.getSurname}"></span>
             <input type="submit" value="Clear">
             <br>
             <span th:text="${'The book was given away by ' + book.getLibrarian().getName()+' '+ book.getLibrarian().getSurname()}"></span>
@@ -29,8 +29,8 @@
     <div th:unless="${book.getOwner()}!=null">
         <label for="selectPeople">Choice people : </label>
         <form th:method="PATCH" th:action="@{/books/{id}/setPeople(id=${book.getBooks_id()})}" th:object="${people2}">
-       <select id="selectPeople" th:field="*{people_id}" th:object="${people2}" >
-           <option th:each="i : ${people}" th:value="${i.getPeople_id()}" th:text="${i.getFullName()}"></option>
+       <select id="selectPeople" th:field="*{id}" th:object="${people2}" >
+           <option th:each="i : ${people}" th:value="${i.getId()}" th:text="${i.getName() + ' ' + i.getSurname()}"></option>
        </select>
             <input type="submit" value="Set people">
         </form>

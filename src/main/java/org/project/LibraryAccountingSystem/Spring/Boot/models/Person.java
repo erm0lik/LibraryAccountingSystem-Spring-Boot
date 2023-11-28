@@ -32,7 +32,13 @@ public class Person {
     private String role ;
 
     @OneToMany(mappedBy = "librarian")
-    private List<Book> books;
+    private List<Book> booksLibrarian;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Book> booksPeople;
+
+    @OneToMany(mappedBy = "ownerRequest")
+    private List<BookRequest> bookRequestList;
 
 
     @Transient
@@ -103,5 +109,21 @@ public class Person {
 
     public void setAuth(boolean auth) {
         isAuth = auth;
+    }
+
+    public List<Book> getBooksLibrarian() {
+        return booksLibrarian;
+    }
+
+    public void setBooksLibrarian(List<Book> booksLibrarian) {
+        this.booksLibrarian = booksLibrarian;
+    }
+
+    public List<Book> getBooksPeople() {
+        return booksPeople;
+    }
+
+    public void setBooksPeople(List<Book> booksPeople) {
+        this.booksPeople = booksPeople;
     }
 }

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "books")
@@ -32,12 +33,15 @@ public class Book {
     private Date date_taken;
 
     @ManyToOne
-    @JoinColumn(name = "people_id", referencedColumnName = "people_id")
-    private People owner;
+    @JoinColumn(name = "people_id", referencedColumnName = "id")
+    private Person owner;
 
     @ManyToOne
     @JoinColumn(name = "person_id" , referencedColumnName = "id")
     private Person librarian;
+
+    @OneToMany(mappedBy = "book")
+    private List<BookRequest> bookRequestList ;
 
     @Transient
     private boolean overdue;
@@ -53,7 +57,7 @@ public class Book {
         this.overdue = overdue;
     }
 
-    public People getOwner() {
+    public Person getOwner() {
         return owner;
     }
 
@@ -65,7 +69,7 @@ public class Book {
         this.date_taken = date_taken;
     }
 
-    public void setOwner(People owner) {
+    public void setOwner(Person owner) {
         this.owner = owner;
     }
 
@@ -107,5 +111,13 @@ public class Book {
 
     public void setLibrarian(Person librarian) {
         this.librarian = librarian;
+    }
+
+    public List<BookRequest> getBookRequestList() {
+        return bookRequestList;
+    }
+
+    public void setBookRequestList(List<BookRequest> bookRequestList) {
+        this.bookRequestList = bookRequestList;
     }
 }

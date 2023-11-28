@@ -25,9 +25,10 @@ public class AdminController {
         this.personService = personService;
     }
 
-    @GetMapping("/allPerson")
+    @GetMapping("/allPerson" )
     public String pageAll(Model model) {
         model.addAttribute("listPerson", personService.findAll());
+        model.addAttribute("updatePerson" , new Person());
         return "/admin/allUsers";
     }
 
@@ -40,6 +41,11 @@ public class AdminController {
     @PostMapping("/logoutPerson")
     public String logoutPerson(@ModelAttribute("id") Person person) {
         personService.logout(person.getId());
+        return "redirect:/admin/allPerson";
+    }
+    @PostMapping("/edit")
+    public String editPerson( @ModelAttribute ("updatePerson") Person person){
+        personService.editRole( person , person.getId());
         return "redirect:/admin/allPerson";
     }
 }

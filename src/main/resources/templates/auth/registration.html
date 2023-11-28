@@ -3,33 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <title>Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/css/login.css">
 </head>
 <body>
 <form th:method="POST" th:action="@{/auth/registration}" th:object="${person}">
-    <label for="username">username:</label>
-    <input type="text" th:field="*{userName}" id="username" >
-    <div style="color: red" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}">userName</div>
+    <div class="input-group">
+        <input required autocomplete="off" type="text" th:name="userName" id="username">
+        <label for="username">username:</label>
+        <div style="color: red" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}">userName</div>
+    </div>
     <br/>
-    <label for="name">name:</label>
-    <input type="text" th:field="*{name}" id="name" >
-    <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">name</div>
+    <div class="input-group">
+        <input required autocomplete="off" type="text" th:name="name" id="name">
+        <label for="name">name:</label>
+        <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">name</div>
+    </div>
     <br/>
-    <label for="surname">surname:</label>
-    <input type="text" th:field="*{surname}" id="surname" >
-    <div style="color: red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">surname</div>
+    <div class="input-group">
+        <input required autocomplete="off" type="text" th:name="surname" id="surname">
+        <label for="surname">surname:</label>
+        <div style="color: red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">surname</div>
+    </div>
     <br/>
-    <label for="username">age:</label>
-    <input type="text" th:field="*{age}" id="username" >
-    <div style="color: red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">age</div>
+    <div class="input-group">
+        <input required autocomplete="off" type="text" th:name="age" id="username">
+        <label for="username">age:</label>
+        <div style="color: red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">age</div>
+    </div>
     <br/>
-    <label for="username">password:</label>
-    <input type="password" th:field="*{password}" id="password" >
-    <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password</div>
+    <div class="input-group">
+        <input required autocomplete="off" type="password" th:name="password" id="password">
+        <label for="username">password:</label>
+        <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password</div>
+    </div>
     <br/>
-    <input type="submit" value="Sign up!">
+
+    <input class="input-log" type="submit" value="Sign up!">
+    <a th:href="@{/auth/login}">
+        <input type="button" class="input-reg" value="Login">
+    </a>
 </form>
-<form th:method="GET" th:action="@{/auth/login}">
-    <input type="submit" value="Login">
-</form>
+
 </body>
 </html>

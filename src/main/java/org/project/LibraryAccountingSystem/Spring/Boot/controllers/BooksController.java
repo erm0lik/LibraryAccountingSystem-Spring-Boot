@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Controller
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 public class BooksController {
     private final BookService bookService;
     private final PersonService personService;
+
 
 
     @Autowired
@@ -34,8 +36,8 @@ public class BooksController {
                               @RequestParam(value = "page", required = false) Integer page,
                               @RequestParam(value = "books_per_page", required = false) Integer books_per_page) {
 
-        System.out.println(sort);
-        if (sort != null && page != null & books_per_page != null) {
+
+        if (sort != null && page != null && books_per_page != null) {
             model.addAttribute("sort", true);
             model.addAttribute("books_per_page", books_per_page);
             model.addAttribute("page", page);
@@ -43,7 +45,7 @@ public class BooksController {
         } else if (sort != null) {
             model.addAttribute("sort", true);
             model.addAttribute("books", bookService.findAll("yearOfPublication"));
-        } else if (page != null & books_per_page != null) {
+        } else if (page != null && books_per_page != null) {
             model.addAttribute("books_per_page", books_per_page.toString());
             model.addAttribute("page", page);
             model.addAttribute("books", bookService.findAll(page - 1, books_per_page));
@@ -69,11 +71,12 @@ public class BooksController {
     }
 
     @PostMapping()
-    public String addBook(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult) {
+    public String addBook(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult, @RequestParam("file") MultipartFile file) {
         if (bindingResult.hasErrors())
             return "/books/addBook";
 
-        bookService.saveBook(book);
+        System.out.println(file.getContentType());
+       bookService.saveBook(book , file);
         return "redirect:/books";
     }
 

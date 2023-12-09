@@ -52,6 +52,10 @@
     border-radius: 8px; /* Скругление углов */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Тень */
 }
+.div-info h3 {
+    text-align: center; /* Центрирование текста */
+    margin: 0;
+}
 
 /* Стили для заголовков (label) внутри .div-info */
 .div-info label {

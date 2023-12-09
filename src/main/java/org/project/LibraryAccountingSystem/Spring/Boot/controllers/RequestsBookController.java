@@ -33,7 +33,7 @@ public class RequestsBookController {
     }
 
     @PostMapping("/approveRequest")
-    public String approvRequest(@ModelAttribute("idRequest") int id, Authentication authentication) {
+    public String approveRequest(@ModelAttribute("idRequest") int id, Authentication authentication) {
         BookRequest approve = bookRequestService.findById(id);
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
         bookService.setPeopleForBook(approve.getOwner().getId(),

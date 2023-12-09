@@ -28,7 +28,7 @@
     </div>
     <div class="div-info">
     <div class="div-book" th:if="${!listRequest.isEmpty()}" th:each="request : ${listRequest}">
-        <a th:text="${request.getBook().getName() + ' ' + request.getDate()}"></a>
+        <a th:text="${request.getBook().getName() + ' | ' + request.getDate()}"></a>
         <form th:method="DELETE" th:action="@{/user/deleteRequest}">
             <input type="hidden" th:name="idRequest" th:value="${request.getId()}">
             <input type="submit" value="delete">

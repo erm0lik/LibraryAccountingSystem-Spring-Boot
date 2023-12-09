@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>User</title>
+    <title th:text="${user.getUserName()}">User</title>
     <link rel="stylesheet" type="text/css" href="/static/css/user.css">
 
 </head>
@@ -73,6 +73,14 @@
             }
         </script>
     </div>
+    <h3>Book history</h3>
+    <div th:each="book : ${listHistory}">
+        <a th:text="${ book.getBook().getName()} +  ' | '" ></a>
+        <a th:text="${book.getDateTaken()}+  ' | '" ></a>
+        <a th:if="${book.getDateReturned()!=null}" th:text="${book.getDateReturned()}"></a>
+        <a th:unless="${book.getDateReturned()!=null}" >You have the book now</a>
+    </div>
+
 </div>
 </body>
 </html>

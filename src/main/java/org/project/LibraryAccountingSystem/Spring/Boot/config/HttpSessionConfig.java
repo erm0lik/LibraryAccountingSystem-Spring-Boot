@@ -8,14 +8,14 @@ import java.util.Map;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpSessionEvent;
 import jakarta.servlet.http.HttpSessionListener;
-import org.hibernate.SessionException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 
 
 @Configuration
-public class HttpSessionConfig {
+
+public class HttpSessionConfig  {
 
     private static final Map<String, HttpSession> sessions = new HashMap<>();
 

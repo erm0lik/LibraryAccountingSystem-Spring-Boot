@@ -2,15 +2,20 @@ package org.project.LibraryAccountingSystem.Spring.Boot.services;
 
 
 import org.project.LibraryAccountingSystem.Spring.Boot.models.Book;
-import org.project.LibraryAccountingSystem.Spring.Boot.models.BookRequest;
 import org.project.LibraryAccountingSystem.Spring.Boot.models.Person;
 import org.project.LibraryAccountingSystem.Spring.Boot.repositories.BookRepositories;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 
@@ -19,11 +24,16 @@ import java.util.List;
 public class BookService {
     private final BookRepositories bookRepositories;
 
-    private final PersonService personService ;
+    private final HistoryBookService historyBookService ;
+    private final PersonService personService;
+    @Value("${file.upload.path}")
+    private String pdfPath;
 
     @Autowired
-    public BookService(BookRepositories bookRepositories, PersonService personService) {
+    public BookService(BookRepositories bookRepositories, HistoryBookService historyBookService, PersonService personService) {
         this.bookRepositories = bookRepositories;
+        this.historyBookService = historyBookService;
+
         this.personService = personService;
     }
 
@@ -36,25 +46,44 @@ public class BookService {
         return bookRepositories.findAll();
     }
 
+    //SELECT * FROM books LIMIT size OFFSET (page-1) * size
     public List<Book> findAll(int page, int size) {
         return bookRepositories.findAll(PageRequest.of(page, size)).getContent();
     }
 
+    //SELECT * FROM books ORDER BY name_column ( строка яка приходить в параметрах )
     public List<Book> findAll(String sort) {
         return bookRepositories.findAll(Sort.by(sort));
     }
-
+    //SELECT * FROM books ORDER BY name_column
+    //LIMIT size OFFSET (page-1) * size
     public List<Book> findAll(int page, int size, String sort) {
         return bookRepositories.findAll(PageRequest.of(page, size, Sort.by(sort))).getContent();
     }
-
+    //SELECT * books WHERE books_id = id
     public Book findById(int id) {
         return bookRepositories.findById(id).orElse(null);
     }
 
     @Transactional
-    public void saveBook(Book book) {
-        bookRepositories.save(book);
+    public void saveBook(Book book, MultipartFile multipartFile) {
+        try {
+            byte[] pdfBytes = multipartFile.getBytes();
+            // Указываем путь к папке, где нужно сохранить файл
+            Path uploadPath = Paths.get(pdfPath);
+
+
+            // Генерируем уникальное имя файла (или используем оригинальное, если требуется)
+            String fileName = String.valueOf(bookRepositories.save(book).getBooks_id() + ".pdf");
+            Path filePath = uploadPath.resolve(fileName);
+
+            // Сохраняем файл
+            Files.write(filePath, pdfBytes);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Transactional
@@ -65,7 +94,15 @@ public class BookService {
 
     @Transactional
     public void deleteBook(int id) {
+
         bookRepositories.deleteById(id);
+        try {
+            Path delete = Paths.get(pdfPath + id + ".pdf");
+            Files.delete(delete);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Transactional
@@ -75,15 +112,16 @@ public class BookService {
         book.setLibrarian(personService.findById(person_id));
         book.setDate_taken(new Date());
 
-
+        historyBookService.save(book,book.getOwner());
     }
 
     @Transactional
-    public void deletePeopleForBook(int books_id) {
-        Book book = findById(books_id);
-        book.setOwner(null);
-        book.setLibrarian(null);
+    public void deletePeopleForBook(int book_id) {
+        Person person = personService.findOwnerForBooksId(book_id);
+        Book book = findById(book_id);
 
+        historyBookService.update(person  , book , book.getDate_taken());
+        bookRepositories.deletePeopleForBook(book_id);
     }
 
     public Book findByStartingWith(String start) {
@@ -91,10 +129,17 @@ public class BookService {
 
         return bookRepositories.findByNameStartingWithIgnoreCase(start);
     }
-    public List<Book> findFreeBook (Person person ){
-        List<Book> listBook =  bookRepositories.findByOwnerIsNull();
-        listBook.removeIf(book -> book.getBookRequestList().contains(new BookRequest(person, book)));
-        return listBook;
+
+    public List<Book> findFreeBook(int personId) {
+
+        return bookRepositories.findFreeBooksForPerson(personId);
+//        List<Book> listBook =  bookRepositories.findByOwnerIsNull();
+//        listBook.removeIf(book -> book.getBookRequestList().contains(new BookRequest(person, book)));
+//        return listBook;
     }
+    public Double getAverageRatingForBook(int idBook){
+        return bookRepositories.getAverageRatingForBook(idBook);
+    }
+
 
 }

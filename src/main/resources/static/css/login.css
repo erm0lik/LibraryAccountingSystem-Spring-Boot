@@ -92,3 +92,13 @@ body {
     box-shadow: 0 0 20px rgba(104, 85, 224, 0.6);
     background-color: rgba(104, 85, 224, 1);
 }
+
+.remember-me {
+    width: auto;
+    color: cornsilk;
+    margin-right: 10px;
+}
+.remember-me input{
+
+    scale: 1.6;
+}

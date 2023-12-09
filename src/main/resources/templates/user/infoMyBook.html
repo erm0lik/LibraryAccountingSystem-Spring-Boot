@@ -14,7 +14,7 @@
         </form>
 
         <form th:method="GET" th:action="@{/user/freeBooks}">
-            <input  type="submit" value="Free books">
+            <input type="submit" value="Free books">
         </form>
 
         <form th:method="GET" th:action="@{/user/myBooks}">
@@ -31,8 +31,8 @@
 
     <div class="div-info">
 
-        <form  th:method="GET" th:action="@{/user/freeBooks}">
-            <button class="floating-button" type="submit" >Back</button>
+        <form th:method="GET" th:action="@{/user/myBooks}">
+            <button class="floating-button" type="submit">Back</button>
         </form>
 
         <label for="name">Name: </label>
@@ -43,8 +43,33 @@
         <br>
         <label for="YearOfPublication">Year of publication: </label>
         <a id="YearOfPublication" th:text="${book.getYearOfPublication()}"></a>
+        <br>
+        <label for="averageStars">Average rating of the book : </label>
+        <a id="averageStars" th:text="${averageStars}"></a>
 
     </div>
+
+
+    <iframe th:src="'/pdf/'+${book.getBooks_id}+'.pdf'"
+            width="100%" height="800px"></iframe>
+
+    <div class="div-info">
+        <h3>All reviews</h3>
+        <div th:each="review : ${listReview}">
+            <br>
+            <label for="stars">Stars: </label>
+            <a id="stars" th:text="${review.getStars()}"></a>
+            <br>
+            <label for="text">Text: </label>
+            <a id="text" th:text="${review.getTextReview()}"></a>
+            <br>
+            <label for="owner">Owner: </label>
+            <a id="owner" th:text="${review.getOwnerPerson().getUserName()}"></a>
+            <br>
+            <hr>
+        </div>
+    </div>
 </div>
+
 </body>
 </html>

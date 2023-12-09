@@ -6,6 +6,7 @@ import jakarta.validation.constraints.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "books")
@@ -43,6 +44,8 @@ public class Book {
     @OneToMany(mappedBy = "book")
     private List<BookRequest> bookRequestList ;
 
+    @OneToMany(mappedBy = "ownerBook")
+    private List<Review> reviewList;
     @Transient
     private boolean overdue;
 
@@ -59,6 +62,14 @@ public class Book {
 
     public Person getOwner() {
         return owner;
+    }
+
+    public List<Review> getReviewList() {
+        return reviewList;
+    }
+
+    public void setReviewList(List<Review> reviewList) {
+        this.reviewList = reviewList;
     }
 
     public Date getDate_taken() {
@@ -119,5 +130,18 @@ public class Book {
 
     public void setBookRequestList(List<BookRequest> bookRequestList) {
         this.bookRequestList = bookRequestList;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return books_id == book.books_id && yearOfPublication == book.yearOfPublication && name.equals(book.name) && author.equals(book.author);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(books_id, name, author, yearOfPublication);
     }
 }

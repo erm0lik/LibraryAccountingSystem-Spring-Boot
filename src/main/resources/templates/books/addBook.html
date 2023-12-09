@@ -5,7 +5,7 @@
     <title>Add book</title>
 </head>
 <body>
-<form th:method="POST" th:action="@{/books}" th:object="${book}">
+<form th:method="POST" th:action="@{/books}" th:object="${book}" enctype="multipart/form-data">
     <label for="name" >Name: </label>
     <input id=name type="text" th:field="*{name}"/>
     <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
@@ -18,6 +18,9 @@
     <input id=yearOfPublication type="text" th:field="*{yearOfPublication}"/>
     <div style="color:red" th:if="${#fields.hasErrors('yearOfPublication')}" th:errors="*{yearOfPublication}">Name error</div>
     <br>
+    <label for="file">Выберите файл:</label>
+    <input type="file" id="file" name="file" accept=".pdf" required>
+
     <input type="submit" value="Add book">
 </form>
 </body>

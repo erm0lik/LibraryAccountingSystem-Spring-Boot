@@ -5,11 +5,13 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "person")
-public class Person {
+public class Person implements  Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -40,6 +42,11 @@ public class Person {
     @OneToMany(mappedBy = "ownerRequest")
     private List<BookRequest> bookRequestList;
 
+    @OneToMany(mappedBy = "ownerPerson")
+    private List<Review> reviewList;
+
+    @OneToMany(mappedBy = "personOwner" )
+    List<HistoryBook> historyBookList ;
 
     @Transient
     private boolean isAuth ;
@@ -64,6 +71,22 @@ public class Person {
         this.userName = userName;
     }
 
+    public List<BookRequest> getBookRequestList() {
+        return bookRequestList;
+    }
+
+    public void setBookRequestList(List<BookRequest> bookRequestList) {
+        this.bookRequestList = bookRequestList;
+    }
+
+    public List<Review> getReviewList() {
+        return reviewList;
+    }
+
+    public void setReviewList(List<Review> reviewList) {
+        this.reviewList = reviewList;
+    }
+
     public String getName() {
         return name;
     }
@@ -78,6 +101,14 @@ public class Person {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public List<HistoryBook> getHistoryBookList() {
+        return historyBookList;
+    }
+
+    public void setHistoryBookList(List<HistoryBook> historyBookList) {
+        this.historyBookList = historyBookList;
     }
 
     public int getAge() {
@@ -125,5 +156,18 @@ public class Person {
 
     public void setBooksPeople(List<Book> booksPeople) {
         this.booksPeople = booksPeople;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return id == person.id && age == person.age && Objects.equals(userName, person.userName) && Objects.equals(name, person.name) && Objects.equals(surname, person.surname) && Objects.equals(role, person.role);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userName, name, surname, age, role);
     }
 }

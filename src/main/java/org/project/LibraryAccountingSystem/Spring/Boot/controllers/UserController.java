@@ -26,6 +26,7 @@ public class UserController {
     private final BookRequestService bookRequestService;
     private final PersonPasswordValidator personPasswordValidator;
     private final ReviewService reviewService;
+    private static final String USER_MY_BOOK_URL= "redirect:/user/myBooks";
 
     @Value("${file.upload.path}")
     private String uploadPath;
@@ -74,21 +75,21 @@ public class UserController {
     @GetMapping("/myBooks/{id}")
     public String getBookPage(@PathVariable("id") int id, Model model, Authentication authentication) {
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
-        if (personService.findOwnerForBooksId(id) == null) return "redirect:/user/myBooks";
+        if (personService.findOwnerForBooksId(id) == null) return USER_MY_BOOK_URL;
         else if (personService.findOwnerForBooksId(id).getId() == personDetails.getPerson().getId()) {
             model.addAttribute("book", bookService.findById(id));
             model.addAttribute("averageStars", bookService.getAverageRatingForBook(id));
             model.addAttribute("listReview", reviewService.findAllForBook(id));
             return "/user/infoMyBook";
         }
-        return "redirect:/user/myBooks";
+        return USER_MY_BOOK_URL;
 
     }
 
     @PostMapping("/myBooks/return")
     public String returnBook(@ModelAttribute("id") int id) {
         bookService.deletePeopleForBook(id);
-        return "redirect:/user/myBooks";
+        return USER_MY_BOOK_URL;
     }
 
     @GetMapping("/myBooks/addReview")
@@ -101,7 +102,7 @@ public class UserController {
     public String addReview(@ModelAttribute("idbook") int id, Authentication authentication, @ModelAttribute("review") Review review, Model model) {
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
         if (reviewService.save(review, personDetails.getPerson(), bookService.findById(id))) {
-            return "redirect:/user/myBooks";
+            return USER_MY_BOOK_URL;
         } else {
             model.addAttribute("isValid", false);
             return "/user/addReview";

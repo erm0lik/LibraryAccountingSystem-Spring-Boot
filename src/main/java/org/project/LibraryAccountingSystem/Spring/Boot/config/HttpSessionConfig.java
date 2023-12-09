@@ -15,7 +15,7 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 
 @Configuration
 
-public class HttpSessionConfig  {
+public class HttpSessionConfig {
 
     private static final Map<String, HttpSession> sessions = new HashMap<>();
 

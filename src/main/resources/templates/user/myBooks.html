@@ -28,15 +28,15 @@
         </form>
     </div>
     <div class="div-book" th:each="book : ${books}">
-        <a th:href="@{/user/myBooks/{bookId}(bookId=${book.getBooks_id()})}"
+        <a th:href="@{/user/myBooks/{bookId}(bookId=${book.getId()})}"
            th:text="${book.getName() + ' | ' + book.getAuthor() + ' | ' + book.getYearOfPublication()}"></a>
         <form id="returnForm" th:method="POST" th:action="@{/user/myBooks/return}">
-            <input type="hidden" th:name="id" th:value="${book.getBooks_id()}">
+            <input type="hidden" th:name="id" th:value="${book.getId()}">
             <input type="submit" value="Return">
         </form>
 
         <form id="reviewFormInner" th:method="GET" th:action="@{/user/myBooks/addReview}">
-            <input type="hidden" th:name="id" th:value="${book.getBooks_id()}">
+            <input type="hidden" th:name="id" th:value="${book.getId()}">
             <input type="submit" value="Add review">
         </form>
 

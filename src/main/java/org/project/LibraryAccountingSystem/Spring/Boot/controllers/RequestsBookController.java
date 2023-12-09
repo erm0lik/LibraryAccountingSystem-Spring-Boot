@@ -37,7 +37,7 @@ public class RequestsBookController {
         BookRequest approve = bookRequestService.findById(id);
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
         bookService.setPeopleForBook(approve.getOwner().getId(),
-                approve.getBook().getBooks_id(),
+                approve.getBook().getId(),
                 personDetails.getPerson().getId());
         bookRequestService.delete(id);
         return "redirect:/requestBook/allRequest";

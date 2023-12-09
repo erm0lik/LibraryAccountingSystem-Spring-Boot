@@ -8,39 +8,39 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
-
 @Controller
 @RequestMapping(("/admin"))
 public class AdminController {
     private final PersonService personService;
-
+    public static final String ALLPERSONURL = "redirect:/admin/allPerson";
 
     @Autowired
     public AdminController(PersonService personService) {
         this.personService = personService;
     }
 
-    @GetMapping("/allPerson" )
+    @GetMapping("/allPerson")
     public String pageAll(Model model) {
         model.addAttribute("listPerson", personService.findAll());
-        model.addAttribute("updatePerson" , new Person());
+        model.addAttribute("updatePerson", new Person());
         return "/admin/allUsers";
     }
 
     @DeleteMapping("/deletePerson")
     public String deletePerson(@ModelAttribute("id") Person person) {
         personService.delete(person.getId());
-        return "redirect:/admin/allPerson";
+        return ALLPERSONURL;
     }
 
     @PostMapping("/logoutPerson")
     public String logoutPerson(@ModelAttribute("id") Person person) {
         personService.logout(person.getId());
-        return "redirect:/admin/allPerson";
+        return ALLPERSONURL;
     }
+
     @PostMapping("/edit")
-    public String editPerson( @ModelAttribute ("updatePerson") Person person){
-        personService.editRole( person , person.getId());
-        return "redirect:/admin/allPerson";
+    public String editPerson(@ModelAttribute("updatePerson") Person person) {
+        personService.editRole(person, person.getId());
+        return ALLPERSONURL;
     }
 }

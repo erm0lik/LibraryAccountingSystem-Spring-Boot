@@ -1,10 +1,8 @@
 package org.project.LibraryAccountingSystem.Spring.Boot.controllers;
 
 
-import jakarta.validation.Valid;
+
 import org.project.LibraryAccountingSystem.Spring.Boot.models.Book;
-import org.project.LibraryAccountingSystem.Spring.Boot.models.Person;
-import org.project.LibraryAccountingSystem.Spring.Boot.services.BookService;
 import org.project.LibraryAccountingSystem.Spring.Boot.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

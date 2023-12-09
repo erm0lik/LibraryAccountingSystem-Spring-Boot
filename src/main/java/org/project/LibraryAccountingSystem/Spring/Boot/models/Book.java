@@ -14,7 +14,7 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "books_id")
-    private int books_id;
+    private int id;
 
     @NotEmpty(message = "Enter the name")
     @Size(min = 1, max = 200, message = "Enter the valid name")
@@ -31,7 +31,7 @@ public class Book {
     private int yearOfPublication;
     @Column(name = "date_taken")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date date_taken;
+    private Date dateTaken;
 
     @ManyToOne
     @JoinColumn(name = "people_id", referencedColumnName = "id")
@@ -72,24 +72,24 @@ public class Book {
         this.reviewList = reviewList;
     }
 
-    public Date getDate_taken() {
-        return date_taken;
+    public Date getDateTaken() {
+        return dateTaken;
     }
 
-    public void setDate_taken(Date date_taken) {
-        this.date_taken = date_taken;
+    public void setDateTaken(Date dateTaken) {
+        this.dateTaken = dateTaken;
     }
 
     public void setOwner(Person owner) {
         this.owner = owner;
     }
 
-    public int getBooks_id() {
-        return books_id;
+    public int getId() {
+        return id;
     }
 
-    public void setBooks_id(int books_id) {
-        this.books_id = books_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -137,11 +137,11 @@ public class Book {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return books_id == book.books_id && yearOfPublication == book.yearOfPublication && name.equals(book.name) && author.equals(book.author);
+        return id == book.id && yearOfPublication == book.yearOfPublication && name.equals(book.name) && author.equals(book.author);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(books_id, name, author, yearOfPublication);
+        return Objects.hash(id, name, author, yearOfPublication);
     }
 }

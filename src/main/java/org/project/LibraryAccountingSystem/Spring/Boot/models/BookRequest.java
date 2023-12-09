@@ -71,7 +71,7 @@ public class BookRequest {
         if (o == null || getClass() != o.getClass()) return false;
         BookRequest that = (BookRequest) o;
         return this.getOwner().getId() == that.getOwner().getId() &&
-                this.getBook().getBooks_id() == that.getBook().getBooks_id();
+                this.getBook().getId() == that.getBook().getId();
     }
 
     @Override

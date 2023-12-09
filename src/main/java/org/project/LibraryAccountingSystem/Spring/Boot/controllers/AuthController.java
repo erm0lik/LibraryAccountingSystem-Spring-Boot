@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final PersonValidator personValidator;
     private final RegistrationService registrationService;
-    private final PersonPasswordValidator personPasswordValidator ;
+    private final PersonPasswordValidator personPasswordValidator;
 
     @Autowired
     public AuthController(PersonValidator personValidator, RegistrationService registrationService, PersonPasswordValidator personPasswordValidator) {
@@ -38,7 +38,7 @@ public class AuthController {
     @PostMapping("/registration")
     public String performRegistration(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult) {
         personValidator.validate(person, bindingResult);
-        personPasswordValidator.validate(person , bindingResult);
+        personPasswordValidator.validate(person, bindingResult);
         if (bindingResult.hasErrors()) {
             return "/auth/registration";
         }

@@ -2,7 +2,6 @@ package org.project.LibraryAccountingSystem.Spring.Boot.services;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpSessionEvent;
-import org.hibernate.Hibernate;
 import org.project.LibraryAccountingSystem.Spring.Boot.config.HttpSessionConfig;
 import org.project.LibraryAccountingSystem.Spring.Boot.models.HistoryBook;
 import org.project.LibraryAccountingSystem.Spring.Boot.models.Person;
@@ -111,7 +110,7 @@ public class PersonService {
         if (people.isPresent()) {
             long millisecondsToDay = 86400000;
             people.get().getBooksPeople().forEach(a -> a.setOverdue(
-                    (((new Date()).getTime() - a.getDate_taken().getTime()) / millisecondsToDay) >= 10));
+                    (((new Date()).getTime() - a.getDateTaken().getTime()) / millisecondsToDay) >= 10));
 
             return people.get().getBooksPeople();
         } else return Collections.emptyList();

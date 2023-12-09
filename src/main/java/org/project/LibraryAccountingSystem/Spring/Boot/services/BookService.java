@@ -74,7 +74,7 @@ public class BookService {
 
 
             // Генерируем уникальное имя файла (или используем оригинальное, если требуется)
-            String fileName = String.valueOf(bookRepositories.save(book).getBooks_id() + ".pdf");
+            String fileName = String.valueOf(bookRepositories.save(book).getId() + ".pdf");
             Path filePath = uploadPath.resolve(fileName);
 
             // Сохраняем файл
@@ -88,7 +88,7 @@ public class BookService {
 
     @Transactional
     public void editBook(Book book, int id) {
-        book.setBooks_id(id);
+        book.setId(id);
         bookRepositories.save(book);
     }
 
@@ -110,7 +110,7 @@ public class BookService {
         Book book = findById(books_id);
         book.setOwner(personService.findById(people_id));
         book.setLibrarian(personService.findById(person_id));
-        book.setDate_taken(new Date());
+        book.setDateTaken(new Date());
 
         historyBookService.save(book,book.getOwner());
     }
@@ -120,7 +120,7 @@ public class BookService {
         Person person = personService.findOwnerForBooksId(book_id);
         Book book = findById(book_id);
 
-        historyBookService.update(person  , book , book.getDate_taken());
+        historyBookService.update(person  , book , book.getDateTaken());
         bookRepositories.deletePeopleForBook(book_id);
     }
 

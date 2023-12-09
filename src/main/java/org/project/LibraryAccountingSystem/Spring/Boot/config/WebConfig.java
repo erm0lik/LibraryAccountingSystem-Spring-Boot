@@ -10,13 +10,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
     @Value("${file.upload.path}")
-    private  String pdfPath ;
+    private String pdfPath;
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/css/**")
                 .addResourceLocations("classpath:/static/css/");
         registry.addResourceHandler("/pdf/**")
-                .addResourceLocations("file:///"+pdfPath);
+                .addResourceLocations("file:///" + pdfPath);
     }
 
 }

@@ -1,6 +1,5 @@
 package org.project.LibraryAccountingSystem.Spring.Boot.config;
 
-
 import org.project.LibraryAccountingSystem.Spring.Boot.security.PersonDetails;
 import org.project.LibraryAccountingSystem.Spring.Boot.services.PersonDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +24,11 @@ import java.util.Set;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    private static final String ADMIN = "ADMIN";
+    private static final String LIBRARIAN = "LIBRARIAN";
+    private static final String USER = "USER";
     private final PersonDetailsService personDetailsService;
-    private final DataSource dataSource ;
+    private final DataSource dataSource;
 
     @Autowired
     public SecurityConfig(PersonDetailsService personDetailsService, DataSource dataSource) {
@@ -51,15 +53,15 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.headers(h->h.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+        http.headers(h -> h.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .authenticationProvider(authenticationProvider())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/menu-admin", "/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/requestBook/**", "/books/**", "/people/**").hasAnyRole("LIBRARIAN", "ADMIN")
+                        .requestMatchers("/menu-admin", "/admin/**").hasRole(ADMIN)
+                        .requestMatchers("/requestBook/**", "/books/**", "/people/**").hasAnyRole(ADMIN, LIBRARIAN)
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/static/css/**").permitAll()
 
-                        .anyRequest().hasAnyRole("LIBRARIAN", "ADMIN", "USER"))
+                        .anyRequest().hasAnyRole(ADMIN, LIBRARIAN, USER))
                 .formLogin(formLogin -> formLogin
                         .loginPage("/auth/login").permitAll()
                         .loginProcessingUrl("/process_login")
@@ -70,16 +72,14 @@ public class SecurityConfig {
                             PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
 
                             personDetails.getPerson().setAuth(true);
-
-
-                            if (roles.contains("ROLE_ADMIN"))
+                            String role = "ROLE_";
+                            if (roles.contains(role + ADMIN))
                                 response.sendRedirect("/menu-admin");
-                            else if (roles.contains("ROLE_LIBRARIAN"))
+                            else if (roles.contains(role + LIBRARIAN))
                                 response.sendRedirect("/menu");
-                            else if (roles.contains("ROLE_USER")) {
+                            else if (roles.contains(role + USER)) {
                                 response.sendRedirect("/user");
                             }
-
                         })
                         .failureUrl("/auth/login?error"))
                 .logout(logout -> logout
@@ -87,13 +87,14 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/auth/login"))
                 .rememberMe(rm -> rm
                         .tokenRepository(persistentTokenRepository())
-                        .tokenValiditySeconds(24*60*60));
+                        .tokenValiditySeconds(24 * 60 * 60));
 
 
         return http.build();
     }
+
     @Bean
-    public PersistentTokenRepository persistentTokenRepository( ) {
+    public PersistentTokenRepository persistentTokenRepository() {
         JdbcTokenRepositoryImpl db = new JdbcTokenRepositoryImpl();
         db.setDataSource(dataSource);
         return db;

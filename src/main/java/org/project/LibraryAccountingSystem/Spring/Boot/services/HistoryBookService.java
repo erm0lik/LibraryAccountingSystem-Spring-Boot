@@ -22,7 +22,7 @@ public class HistoryBookService {
         HistoryBook historyBook = new HistoryBook() ;
         historyBook.setBook(book);
         historyBook.setPersonOwner(person);
-        historyBook.setDateTaken(book.getDate_taken());
+        historyBook.setDateTaken(book.getDateTaken());
         historyBookRepository.save(historyBook);
     }
     @Transactional

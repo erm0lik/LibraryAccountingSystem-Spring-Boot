@@ -23,7 +23,7 @@ public class LibraryAccountingSystemSpringBootApplication {
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("org.postgresql.Driver");
-		dataSource.setUrl("jdbc:postgresql://localhost:5432/LibrayAccountingSystem");
+		dataSource.setUrl("jdbc:postgresql://localhost:5432/libray");
 		dataSource.setUsername("postgres");
 		dataSource.setPassword("Vlad211003");
 		return dataSource;

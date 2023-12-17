@@ -15,7 +15,7 @@ import java.util.Optional;
 @Repository
 public interface BookRepositories extends JpaRepository<Book, Integer> {
     Book findByNameStartingWithIgnoreCase(String start);
-    List<Book>findByOwnerIsNull  ();
+    List<Book>findByOwnerIsNull();
 
     @Query(value = "SELECT get_average_rating_for_book(:book_id)", nativeQuery = true)
     Double getAverageRatingForBook(@Param("book_id") int book_id);
@@ -26,4 +26,6 @@ public interface BookRepositories extends JpaRepository<Book, Integer> {
     @Query(value = "SELECT * FROM find_free_books_for_person(:person_id);" , nativeQuery = true)
     List<Book> findFreeBooksForPerson(@Param("person_id") int person_id ) ;
 
+    @Procedure("set_people_for_book")
+    void set_people_for_book(int people_id_p , int librarian_id_p , int books_id_p);
 }

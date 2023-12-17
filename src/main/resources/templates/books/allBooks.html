@@ -25,7 +25,7 @@
 <hr>
 <body>
 <div th:each="book : ${books}">
-    <a th:href="@{/books/{id}(id=${book.getBooks_id()})}"
+    <a th:href="@{/books/{id}(id=${book.getId()})}"
        th:text="${book.getName()+ '. Author :'+book.getAuthor() + '. '+book.getYearOfPublication()}"></a>
 </div>
 

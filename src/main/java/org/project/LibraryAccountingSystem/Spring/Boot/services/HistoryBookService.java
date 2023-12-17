@@ -17,17 +17,6 @@ public class HistoryBookService {
     public HistoryBookService(HistoryBookRepository historyBookRepository) {
         this.historyBookRepository = historyBookRepository;
     }
-    @Transactional
-    public void save (Book book , Person person ){
-        HistoryBook historyBook = new HistoryBook() ;
-        historyBook.setBook(book);
-        historyBook.setPersonOwner(person);
-        historyBook.setDateTaken(book.getDateTaken());
-        historyBookRepository.save(historyBook);
-    }
-    @Transactional
-    public void update(Person person , Book book , Date date){
-        HistoryBook historyBook = historyBookRepository.findByPersonOwnerAndBookAndDateTaken(person , book , date).orElseThrow();
-        historyBook.setDateReturned(new Date());
-    }
+
+
 }

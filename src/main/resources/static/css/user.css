@@ -108,7 +108,9 @@
 
 /* Стили для контейнера книги */
 .div-book {
-    padding-bottom: 5px;
+
+    padding-bottom: 10px;
+    padding-top: 10px;
     display: flex;
     align-items: baseline;
 

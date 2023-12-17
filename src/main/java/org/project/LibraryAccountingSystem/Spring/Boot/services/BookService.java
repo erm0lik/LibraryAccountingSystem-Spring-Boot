@@ -24,15 +24,14 @@ import java.util.List;
 public class BookService {
     private final BookRepositories bookRepositories;
 
-    private final HistoryBookService historyBookService ;
     private final PersonService personService;
     @Value("${file.upload.path}")
     private String pdfPath;
 
     @Autowired
-    public BookService(BookRepositories bookRepositories, HistoryBookService historyBookService, PersonService personService) {
+    public BookService(BookRepositories bookRepositories, PersonService personService) {
         this.bookRepositories = bookRepositories;
-        this.historyBookService = historyBookService;
+
 
         this.personService = personService;
     }
@@ -107,20 +106,11 @@ public class BookService {
 
     @Transactional
     public void setPeopleForBook(int people_id, int books_id, int person_id) {
-        Book book = findById(books_id);
-        book.setOwner(personService.findById(people_id));
-        book.setLibrarian(personService.findById(person_id));
-        book.setDateTaken(new Date());
-
-        historyBookService.save(book,book.getOwner());
+    bookRepositories.set_people_for_book(people_id ,person_id , books_id);
     }
 
     @Transactional
     public void deletePeopleForBook(int book_id) {
-        Person person = personService.findOwnerForBooksId(book_id);
-        Book book = findById(book_id);
-
-        historyBookService.update(person  , book , book.getDateTaken());
         bookRepositories.deletePeopleForBook(book_id);
     }
 

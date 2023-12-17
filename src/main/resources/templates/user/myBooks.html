@@ -27,7 +27,8 @@
             <input type="submit" value="Logout">
         </form>
     </div>
-    <div class="div-book" th:each="book : ${books}">
+
+    <div th:if="${!books.isEmpty()}" class="div-book" th:each="book : ${books}">
         <a th:href="@{/user/myBooks/{bookId}(bookId=${book.getId()})}"
            th:text="${book.getName() + ' | ' + book.getAuthor() + ' | ' + book.getYearOfPublication()}"></a>
         <form id="returnForm" th:method="POST" th:action="@{/user/myBooks/return}">
@@ -40,7 +41,9 @@
             <input type="submit" value="Add review">
         </form>
 
-
+    </div>
+    <div th:unless="${!books.isEmpty()}" class="div-info">
+        <a >You haven`t books</a>
     </div>
 
 

@@ -17,7 +17,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/static/css/**")
                 .addResourceLocations("classpath:/static/css/");
         registry.addResourceHandler("/pdf/**")
-                .addResourceLocations("file:///" + pdfPath);
+                .addResourceLocations("file:src/main/resources/static/booksPDF/");
     }
 
 }
